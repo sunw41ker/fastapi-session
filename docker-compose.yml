@@ -1,0 +1,23 @@
+version: "3.8"
+services:
+  postgres:
+    image: postgres:${POSTGRES_VERSION:-13-alpine}
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER:-postgres}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-secret}
+      - POSTGRES_DB=${POSTGRES_DB:-session}
+    ports:
+      - 5432:${POSTGRES_PORT:-5432}
+
+  mysql:
+    image: mysql:${MYSQL_VERSION:-latest}
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD:-root}
+      - MYSQL_DATABASE=${MYSQL_DATABASE:-session}
+    ports:
+      - 3306:${MYSQL_PORT:-3306}
+
+  redis:
+    image: redis:${REDIS_VERSION:-6-alpine}
+    ports:
+      - 6379:${REDIS_PORT:-6379}
