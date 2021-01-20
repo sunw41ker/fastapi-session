@@ -1,11 +1,19 @@
 [tool.poetry]
 name = "fastapi_session"
-version = "0.4.0"
+version = "0.3.0"
 description = "A fastapi library for managing session of different types"
 authors = ["Maxim Yakovenko <mxyakovenko9@gmail.com>", "Zarlo <5899@zarlo.dev>"]
 license = "MIT"
 readme = "README.md"
-repository = "https://github.com/TheLazzziest/faskapi_session"
+repository = "https://github.com/TheLazzziest/fastapi_session"
+documentation = ""
+keywords = [
+    "Asyncio",
+    "FastAPI",
+    "Session",
+    "Cookie",
+    "Secured"
+]
 
 [tool.poetry.dependencies]
 python = "^3.8"
@@ -14,7 +22,6 @@ portalocker = "^2.0.0"
 aioredis = "^1.3.1"
 fastapi = "^0.63.0"
 itsdangerous = "^1.1.0"
-pydantic = "^1.7.3"
 
 [tool.poetry.dev-dependencies]
 fastapi = "^0.63.0"
@@ -29,6 +36,9 @@ databases = {extras = ["sqlite"], version = "^0.4.1"}
 uvicorn = "^0.13.3"
 pydantic = "^1.7.3"
 
+[tool.poetry.urls]
+issues = "https://github.com/TheLazzziest/fastapi_session"
+
 [build-system]
-requires = ["poetry-core>=1.0.0", "setuptools >= 40.6.0", "wheel"]
-build-backend = "setuptools.build_meta"
+requires = ["poetry>=1.1.4"]
+build-backend = "poetry.mansory.api"
