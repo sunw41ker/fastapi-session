@@ -40,5 +40,5 @@ pydantic = "^1.7.3"
 issues = "https://github.com/TheLazzziest/fastapi_session"
 
 [build-system]
-requires = ["poetry>=1.1.4"]
-build-backend = "poetry.mansory.api"
+requires = ["poetry>=0.12"]
+build-backend = "poetry.masonry.api"
