@@ -30,7 +30,7 @@ class CookieManager:
     def get_cookie(self, request: Request) -> str:
         """Get a cookie by the cookie_name from the request."""
         signed_id = b64decode(request.cookies[self.session_cookie].encode("utf-8"))
-        return self.signer.unsign(signed_id, max_age=self.max_age).decode("utf-8")
+        return self.signer.unsign(signed_id, max_age=settings.MAX_AGE).decode("utf-8")
 
     def set_cookie(self, response: Response, session_id: str) -> Response:
         """Set a cookie to the response."""
@@ -49,5 +49,7 @@ class CookieManager:
         return response
 
     def remove_cookie(self, response: Response) -> Response:
-        response.delete_cookie(self.session_cookie, path=self.path, domain=self.domain)
+        response.delete_cookie(
+            self.session_cookie, path=settings.PATH, domain=settings.DOMAIN
+        )
         return response
