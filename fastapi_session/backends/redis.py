@@ -1,9 +1,9 @@
 import asyncio
 import pickle
 import typing
-from itertools import chain
 from aioredis import RedisConnection
 from dataclasses import dataclass, field
+from itertools import chain
 
 from ._mixins import DisableMethodsMixin
 from .interfaces import BackendInterface, FactoryInterface
@@ -16,11 +16,6 @@ __all__ = ("RedisBackend",)
 class RedisBackend(DisableMethodsMixin, FactoryInterface, BackendInterface):
     """
     A backend for managing redis based session storage.
-
-    @TODO: Implement async generator
-    :param ns: A namespace for storing user data
-    :param adapter: An instance of an opened connection to Redis server
-    :param loop: An instance of event loop
     """
 
     adapter: RedisConnection
@@ -35,32 +30,33 @@ class RedisBackend(DisableMethodsMixin, FactoryInterface, BackendInterface):
         """
         A factory method for creating and initializing the backend.
 
-        :param ns: A redis key namespace
         :param adapter: An opened connection to a redis server
         :param loop: An instance of event loop
         """
         return cls(adapter, loop)
 
-    async def clear(self, pattern: str) -> None:
-        keys = await self.adapter.keys(pattern)
+    async def clear(self, namespace: str) -> None:
+        keys = await self.keys(namespace)
         if len(keys) > 0:
             await self.adapter.delete(*keys)
 
-    async def keys(self, pattern: str) -> typing.List[str]:
-        return await self.adapter.keys(pattern)
+    async def keys(self, namespace: str) -> typing.List[str]:
+        return [
+            key.decode("utf-8") for key in await self.adapter.keys(f"{namespace}:*")
+        ]
 
     async def exists(self, *key: typing.Sequence[str]) -> int:
         return await self.adapter.exists(*key)
 
-    async def len(self, pattern: str) -> int:
-        return len(await self.adapter.keys(pattern))
+    async def len(self, namespace: str) -> int:
+        return len(await self.adapter.keys(namespace))
 
     async def get(
         self,
         *keys: typing.Sequence[str],
     ) -> typing.Sequence[typing.Any]:
         """Get values by the passed keys from a storage."""
-        return await self.adapter.mget(*keys)
+        return [key.decode("utf-8") for key in await self.adapter.mget(*keys)]
 
     async def set(self, key: str, value: typing.Any, **kwargs) -> None:
         """Set the value to the key in a storage."""
