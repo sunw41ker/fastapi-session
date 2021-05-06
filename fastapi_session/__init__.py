@@ -1,4 +1,3 @@
-import toml
 from pathlib import Path
 
 from .backends import (
@@ -57,7 +56,4 @@ __all__ = (
     SessionMiddleware,
 )
 
-pyproject_path = Path().parent.joinpath(
-    "pyproject.toml",
-)
-__version__ = toml.load(pyproject_path)["tool"]["poetry"]["version"]
+__version__ = "0.8.2"
